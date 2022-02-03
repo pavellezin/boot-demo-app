@@ -11,6 +11,7 @@ import java.util.Collection;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(name = "username_uniqe", columnNames = {"username"})})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
