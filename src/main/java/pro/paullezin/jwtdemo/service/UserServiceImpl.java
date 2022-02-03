@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pro.paullezin.jwtdemo.model.Role;
 import pro.paullezin.jwtdemo.model.User;
-import pro.paullezin.jwtdemo.repo.RoleRepo;
 import pro.paullezin.jwtdemo.repo.UserRepo;
 
 
@@ -18,7 +17,6 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
-    private final RoleRepo roleRepo;
 
     @Override
     public User saveUser(User user) {
@@ -27,16 +25,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role saveRole(Role role) {
-        log.info("Save new role [{}]", role.getName());
-        return roleRepo.save(role);
-    }
-
-    @Override
-    public void addRoleToUser(String username, String roleNme) {
-        log.info("Add new role [{}] to user [{}]", roleNme, username);
+    public void addRoleToUser(String username, String roleName) {
+        log.info("Add new role [{}] to user [{}]", roleName, username);
         User user = userRepo.findByUsername(username);
-        Role role = roleRepo.findByName(roleNme);
+        Role role = Role.valueOf(roleName);
         user.getRoles().add(role);
     }
 

@@ -1,27 +1,26 @@
 package pro.paullezin.jwtdemo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-
-import static javax.persistence.FetchType.EAGER;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(name = "username_uniqe", columnNames = {"username"})})
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@ToString(callSuper = true, exclude = {"password"})
+public class User extends BaseEntity implements Serializable {
+
     private String name;
     private String username;
     private String password;
-    @ManyToMany(fetch = EAGER)
-    private Collection<Role> roles = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique")})
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 }
