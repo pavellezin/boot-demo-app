@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+    <!-- Populate DB add users and roles. -->
+    <changeSet id="02" author="Pavel Lezin">
+        <insert tableName="users">
+            <column name="name" value="John Travolta"/>
+            <column name="username" value="john"/>
+            <column name="password" value="12345"/>
+        </insert>
+        <insert tableName="users">
+            <column name="name" value="Bruce Willis"/>
+            <column name="username" value="bruce"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="users">
+            <column name="name" value="Monica Belucci"/>
+            <column name="username" value="monica"/>
+            <column name="password" value="1234567"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="2"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="3"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="3"/>
+            <column name="role" value="USER"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
