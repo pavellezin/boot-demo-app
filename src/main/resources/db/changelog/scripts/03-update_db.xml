@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.7.xsd">
+    <changeSet id="03" author="Pavel Lezin">
+        <update tableName="users">
+            <column name="password" value="{noop}12345"/>
+            <where>username='john'</where>
+        </update>
+        <update tableName="users">
+            <column name="password" value="{noop}123456"/>
+            <where>username='bruce'</where>
+        </update>
+        <update tableName="users">
+            <column name="password" value="{noop}1234567"/>
+            <where>username='monica'</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>
