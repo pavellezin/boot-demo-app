@@ -13,10 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pro.paullezin.jwtdemo.filter.CustomAuthFilter;
 import pro.paullezin.jwtdemo.model.User;
 import pro.paullezin.jwtdemo.repo.UserRepo;
 import pro.paullezin.jwtdemo.security.AuthUser;
+import pro.paullezin.jwtdemo.security.JwtPropertyProvider;
 
 import java.util.Optional;
 
@@ -29,6 +31,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepo userRepo;
+    private final JwtPropertyProvider jwtPropertyProvider;
+    public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     public UserDetailsService userDetailsService() {
         return username -> {
@@ -43,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
-                .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
+                .passwordEncoder(PASSWORD_ENCODER);
     }
 
     @Override
@@ -51,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthFilter(authenticationManagerBean()));
+        http.addFilter(new CustomAuthFilter(authenticationManagerBean(), jwtPropertyProvider));
     }
 
     @Bean

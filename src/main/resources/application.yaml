@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url : jdbc:postgresql://0.0.0.0:5432/jwt-demo
+    url: jdbc:postgresql://0.0.0.0:5432/jwt-demo
     username: postgres
     password: postgres
   jpa:
@@ -16,4 +16,6 @@ spring:
     enabled: true
 logging:
   level:
-    "liquibase" : info
+    "liquibase": INFO
+    root: WARN
+    pro.paullezin.jwtdemo: INFO
