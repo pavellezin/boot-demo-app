@@ -10,6 +10,7 @@ import pro.paullezin.jwtdemo.model.Role;
 import pro.paullezin.jwtdemo.model.User;
 import pro.paullezin.jwtdemo.repo.UserRepo;
 
+import java.util.EnumSet;
 import java.util.List;
 
 @Service
@@ -22,6 +23,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(User user) {
         log.info("Save new user [{}]", user.getUsername());
+        if (user.getRoles().isEmpty()) {
+            user.setRoles(EnumSet.of(Role.USER));
+        }
         user.setPassword(WebSecurityConfig.PASSWORD_ENCODER.encode(user.getPassword()));
         return userRepo.save(user);
     }

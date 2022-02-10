@@ -27,7 +27,6 @@ public class UserController {
     @PostMapping("/users/register")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         ValidationUtil.checkNew(user);
-        user.setRoles(EnumSet.of(Role.USER));
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/users")
                 .build().toUri();
