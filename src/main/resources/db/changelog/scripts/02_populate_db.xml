@@ -23,7 +23,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="username" value="monica"/>
             <column name="password" value="1234567"/>
         </insert>
-        <insert tableName="user_role">
+<!--        <insert tableName="user_role">
             <column name="user_id" valueNumeric="1"/>
             <column name="role" value="ADMIN"/>
         </insert>
@@ -42,6 +42,6 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         <insert tableName="user_role">
             <column name="user_id" valueNumeric="3"/>
             <column name="role" value="USER"/>
-        </insert>
+        </insert>-->
     </changeSet>
 </databaseChangeLog>

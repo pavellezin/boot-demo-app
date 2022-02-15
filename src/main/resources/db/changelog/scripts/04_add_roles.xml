@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- Populate DB add roles. -->
+    <changeSet id="04" author="Pavel Lezin">
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="11"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="11"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="12"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="13"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="13"/>
+            <column name="role" value="USER"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
