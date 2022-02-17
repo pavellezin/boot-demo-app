@@ -41,6 +41,11 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
+    @GetMapping("/users/find/by-name")
+    public ResponseEntity<User> getUser(@RequestParam(value = "username") String username) {
+        return ResponseEntity.ok().body(userService.getUser(username));
+    }
+
     @PostMapping("/users/register")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         ValidationUtil.checkNew(user);
@@ -79,5 +84,4 @@ public class UserController {
             throw new RuntimeException("Refresh token is missing.");
         }
     }
-
 }
