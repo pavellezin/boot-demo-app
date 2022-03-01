@@ -25,11 +25,14 @@ import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RequiredArgsConstructor
+//todo use @Component instead of manual instantiating of bean
+//TODO provide more specific info in class name, what is 'custom'? use 'Jwt' instead or smth like that
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     private final JwtPropertyProvider jwtPropertyProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filter) throws ServletException, IOException {
+        //todo instead of this you may override shouldNotFilter() method from parent
         if (request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refresh")) {
             filter.doFilter(request, response);
         } else {
@@ -49,6 +52,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filter.doFilter(request, response);
                 } catch (Exception e) {
+                    //todo use global Exception handler instead (inject bean here and invoke manually)
                     ResponseError.build(response, e);
                 }
             } else {

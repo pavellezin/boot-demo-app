@@ -7,6 +7,7 @@ import org.springframework.data.util.ProxyUtils;
 
 import javax.persistence.*;
 
+//TODO suggesting to get rid of this class
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @Getter
