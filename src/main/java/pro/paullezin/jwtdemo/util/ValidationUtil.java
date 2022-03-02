@@ -12,7 +12,7 @@ public class ValidationUtil {
 
     public static void checkNew(BaseEntity entity) {
         if (!entity.isNew()) {
-            throw new IllegalRequestDataException(entity.getClass().getSimpleName() + "must be new");
+            throw new IllegalRequestDataException(entity.getClass().getSimpleName() + " must be new");
         }
     }
 

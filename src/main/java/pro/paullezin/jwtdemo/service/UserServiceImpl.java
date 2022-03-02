@@ -22,12 +22,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        log.info("Save new user [{}]", user.getUsername());
-        if (user.getRoles().isEmpty()) {
+        User savedUser;
+        log.info("Save user [{}]", user.getUsername());
+        if (user.getRoles() == null) {
             user.setRoles(EnumSet.of(Role.USER));
         }
         user.setPassword(WebSecurityConfig.PASSWORD_ENCODER.encode(user.getPassword()));
-        return userRepo.save(user);
+        try {
+            savedUser = userRepo.save(user);
+        } catch (Exception e) {
+            throw new IllegalRequestDataException(e.getMessage());
+        }
+        return savedUser;
     }
 
     @Override
