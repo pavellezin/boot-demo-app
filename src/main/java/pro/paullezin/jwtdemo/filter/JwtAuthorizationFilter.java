@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import pro.paullezin.jwtdemo.error.ResponseError;
 import pro.paullezin.jwtdemo.security.JwtPropertyProvider;
@@ -24,8 +25,9 @@ import java.util.Collection;
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+@Component
 @RequiredArgsConstructor
-public class CustomAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtPropertyProvider jwtPropertyProvider;
 
     @Override

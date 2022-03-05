@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,14 +27,10 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtPropertyProvider jwtPropertyProvider;
-
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, JwtPropertyProvider jwtPropertyProvider) {
-        this.authenticationManager = authenticationManager;
-        this.jwtPropertyProvider = jwtPropertyProvider;
-    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
