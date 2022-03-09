@@ -37,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepo userRepo;
     private final JwtPropertyProvider jwtPropertyProvider;
+    //todo use exact BCryptPasswordEncoder instead of wrapper for it. It is increasing transparency and readability
     public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     public UserDetailsService userDetailsService() {
@@ -63,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/users/**").hasRole(Role.USER.name());
+        //todo more specific rules should go first
         http.authorizeRequests().antMatchers(POST, "/api/users/save/**").hasRole(Role.ADMIN.name());
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);

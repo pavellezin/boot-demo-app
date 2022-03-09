@@ -40,6 +40,7 @@ public class UserController {
     private final JwtPropertyProvider jwtPropertyProvider;
 
     @GetMapping("/users")
+    //TODO Why any user able to read full list of user? think this should be possible only for admins
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
@@ -51,6 +52,7 @@ public class UserController {
 
     @PostMapping("/users/register")
     @ResponseStatus(HttpStatus.CREATED)
+    //TODO better not to use User entity class as input dto
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         ValidationUtil.checkNew(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -60,6 +62,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/users/update", consumes = APPLICATION_JSON_VALUE)
+    //TODO better not to use User entity class as input dto
     public void updateUser(@Validated @RequestBody User user, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         User oldUser = null;
@@ -73,9 +76,11 @@ public class UserController {
                 oldUser = userService.getUser(username);
             } catch (Exception e) {
                 ResponseError.build(response, e);
+                //TODO oldUser is still null, next you will get NPE
             }
         } else {
             throw new RuntimeException("Refresh token is missing.");
+            //TODO use more specific Type, f.e. IllegalRequestDataException
         }
         assertConsistent(user, oldUser.getId());
         user.setRoles(oldUser.getRoles());
@@ -87,7 +92,7 @@ public class UserController {
         }
         userService.saveUser(user);
     }
-
+//todo seems like this endopint need to handle in separate controller
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -111,10 +116,12 @@ public class UserController {
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             } catch (Exception e) {
+                //todo use global Exception handler instead
                 ResponseError.build(response, e);
             }
         } else {
             throw new RuntimeException("Refresh token is missing.");
+            //TODO use more specific Type, f.e. IllegalRequestDataException
         }
     }
 }

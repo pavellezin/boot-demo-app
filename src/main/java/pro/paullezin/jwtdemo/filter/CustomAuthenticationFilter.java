@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
+//todo use @Component instead of manual instantiating of bean
+//TODO provide more specific info in class name, what is 'custom'? use 'Jwt' instead or smth like that
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtPropertyProvider jwtPropertyProvider;

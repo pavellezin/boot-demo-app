@@ -8,6 +8,8 @@ import pro.paullezin.jwtdemo.model.BaseEntity;
 import java.util.Objects;
 
 @UtilityClass
+//todo This class can be converted to ConstraintValidator, and invoking of this class will perform automatically by
+// spring. Try not to use any static methods in non-static multi-threaded processes
 public class ValidationUtil {
 
     public static void checkNew(BaseEntity entity) {
