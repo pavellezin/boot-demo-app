@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pro.paullezin.jwtdemo.dto.UserDto;
-import pro.paullezin.jwtdemo.error.ResponseError;
+import pro.paullezin.jwtdemo.error.IllegalRequestDataException;
 import pro.paullezin.jwtdemo.model.User;
 import pro.paullezin.jwtdemo.security.JwtPropertyProvider;
 import pro.paullezin.jwtdemo.service.UserService;
@@ -60,20 +60,16 @@ public class UserController {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         User oldUser;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            try {
-                String token = authorizationHeader.substring("Bearer ".length());
-                Algorithm alg = Algorithm.HMAC256(jwtPropertyProvider.getSecret().getBytes());
-                JWTVerifier jwtVerifier = JWT.require(alg).build();
-                DecodedJWT decodedJWT = jwtVerifier.verify(token);
-                String username = decodedJWT.getSubject();
-                oldUser = userService.getUser(username);
-                User user = mappingUtils.mapToCurrentUser(userDto, oldUser);
-                userService.saveUser(user);
-            } catch (Exception e) {
-                ResponseError.build(response, e);
-            }
+            String token = authorizationHeader.substring("Bearer ".length());
+            Algorithm alg = Algorithm.HMAC256(jwtPropertyProvider.getSecret().getBytes());
+            JWTVerifier jwtVerifier = JWT.require(alg).build();
+            DecodedJWT decodedJWT = jwtVerifier.verify(token);
+            String username = decodedJWT.getSubject();
+            oldUser = userService.getUser(username);
+            User user = mappingUtils.mapToCurrentUser(userDto, oldUser);
+            userService.saveUser(user);
         } else {
-            throw new RuntimeException("Refresh token is missing.");
+            throw new IllegalRequestDataException("Refresh token is missing.");
         }
     }
 }
