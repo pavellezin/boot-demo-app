@@ -1,7 +1,7 @@
 package pro.paullezin.jwtdemo.model;
 
 import lombok.*;
-import org.springframework.data.util.ProxyUtils;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,11 +14,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true, exclude = {"password"})
+@EqualsAndHashCode
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     private String name;
     private String username;
     private String password;
@@ -28,20 +30,4 @@ public class User implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || !getClass().equals(ProxyUtils.getUserClass(o))) {
-            return false;
-        }
-        User that = (User) o;
-        return id != null && id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id == null ? 0 : id;
-    }
 }
