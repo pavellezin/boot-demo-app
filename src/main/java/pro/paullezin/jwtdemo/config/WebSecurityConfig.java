@@ -12,11 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pro.paullezin.jwtdemo.filter.CustomAuthenticationFilter;
-import pro.paullezin.jwtdemo.filter.CustomAuthorizationFilter;
+import pro.paullezin.jwtdemo.filter.JwtAuthenticationFilter;
+import pro.paullezin.jwtdemo.filter.JwtAuthorizationFilter;
 import pro.paullezin.jwtdemo.model.Role;
 import pro.paullezin.jwtdemo.model.User;
 import pro.paullezin.jwtdemo.repo.UserRepo;
@@ -37,7 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepo userRepo;
     private final JwtPropertyProvider jwtPropertyProvider;
-    public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
     public UserDetailsService userDetailsService() {
         return username -> {
@@ -52,21 +52,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
-                .passwordEncoder(PASSWORD_ENCODER);
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), jwtPropertyProvider);
-        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManagerBean(), jwtPropertyProvider);
+        jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/api/users/**").hasRole(Role.USER.name());
-        http.authorizeRequests().antMatchers(POST, "/api/users/save/**").hasRole(Role.ADMIN.name());
+        http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**", "/api/users/register/**").permitAll();
+        http.authorizeRequests().antMatchers(POST, "/api/users/update/**").hasRole(Role.USER.name());
+        http.authorizeRequests().antMatchers(GET, "/api/users/**").hasRole(Role.ADMIN.name());
         http.authorizeRequests().anyRequest().authenticated();
-        http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(jwtPropertyProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilter(jwtAuthenticationFilter);
+        http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

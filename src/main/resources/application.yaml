@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: jwt-auth
   datasource:
     url: jdbc:postgresql://0.0.0.0:5432/jwt-demo
     username: postgres

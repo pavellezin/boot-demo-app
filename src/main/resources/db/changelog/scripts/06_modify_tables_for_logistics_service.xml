@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- The initial schema. -->
+    <changeSet id="06" author="Pavel Lezin">
+
+        <createTable tableName="driver_license">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="number" type="varchar(255)"/>
+            <column name="exp_date" type="DATE"/>
+        </createTable>
+
+        <createTable tableName="driver_license_categories">
+            <column name="driver_license_id" type="varchar(36)"/>
+            <column name="category" type="varchar(255)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="driver_license_id"
+                                 baseTableName="driver_license_categories" constraintName="fk_driver_license"
+                                 referencedColumnNames="id" referencedTableName="driver_license"/>
+        <addUniqueConstraint  columnNames="number"
+                              constraintName="driver_license_uniqe"
+                              tableName="driver_license"/>
+        <addUniqueConstraint  columnNames="driver_license_id, category"
+                              constraintName="driver_license_category_unique"
+                              tableName="driver_license_categories"/>
+
+    </changeSet>
+
+</databaseChangeLog>

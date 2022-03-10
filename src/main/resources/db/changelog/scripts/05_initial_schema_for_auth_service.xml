@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- The initial schema. -->
+    <changeSet id="05" author="Pavel Lezin">
+
+        <createTable tableName="users">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="password" type="varchar(255)"/>
+            <column name="username" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="user_role">
+            <column name="user_id" type="varchar(255)"/>
+            <column name="role" type="varchar(255)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_role" constraintName="fk_user_roles"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+        <addUniqueConstraint  columnNames="username"
+                              constraintName="username_uniqe"
+                              tableName="users"/>
+        <addUniqueConstraint  columnNames="user_id, role"
+                              constraintName="user_roles_unique"
+                              tableName="user_role"/>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -7,5 +7,8 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
     <include file="db/changelog/scripts/01_initial_schema.xml"/>
     <include file="db/changelog/scripts/02_populate_db.xml"/>
     <include file="db/changelog/scripts/03-update_db.xml"/>
+    <include file="db/changelog/scripts/04_add_tables_for_logistics_service.xml"/>
+    <include file="db/changelog/scripts/05_initial_schema_for_auth_service.xml"/>
+    <include file="db/changelog/scripts/06_modify_tables_for_logistics_service.xml"/>
 
 </databaseChangeLog>
