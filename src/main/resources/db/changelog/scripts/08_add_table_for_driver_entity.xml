@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- The initial schema. -->
+    <changeSet id="08" author="Pavel Lezin">
+
+        <createTable tableName="drivers">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="license_id" type="varchar(36)"/>
+        </createTable>
+
+        <addUniqueConstraint columnNames="license_id"
+                             constraintName="driver_uniqe"
+                             tableName="drivers"/>
+
+    </changeSet>
+
+</databaseChangeLog>

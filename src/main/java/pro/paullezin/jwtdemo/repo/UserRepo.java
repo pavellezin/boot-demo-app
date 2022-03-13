@@ -5,6 +5,6 @@ import pro.paullezin.jwtdemo.model.User;
 
 import java.util.Optional;
 
-public interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepo extends JpaRepository<User, String> {
     Optional<User> findByUsername(String username);
 }

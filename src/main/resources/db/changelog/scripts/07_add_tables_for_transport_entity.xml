@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- The initial schema. -->
+    <changeSet id="07" author="Pavel Lezin">
+
+        <createTable tableName="transport">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="model" type="varchar(255)"/>
+            <column name="regnum" type="varchar(10)"/>
+            <column name="category" type="varchar(3)"/>
+        </createTable>
+
+        <addUniqueConstraint columnNames="regnum"
+                             constraintName="transport_uniqe"
+                             tableName="transport"/>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- The initial schema. -->
+    <changeSet id="09" author="Pavel Lezin">
+
+        <createTable tableName="driver_transport">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created" type="timestamp"/>
+            <column name="modified" type="timestamp"/>
+            <column name="driver_id" type="varchar(36)"/>
+            <column name="transport_id" type="varchar(36)"/>
+            <column name="status" type="varchar(10)"/>
+            <column name="action" type="varchar(10)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="driver_id"
+                                 baseTableName="driver_transport" constraintName="fk_driver_transport_drivers"
+                                 referencedColumnNames="id" referencedTableName="drivers"/>
+        <addForeignKeyConstraint baseColumnNames="transport_id"
+                                 baseTableName="driver_transport" constraintName="fk_driver_transport_transport"
+                                 referencedColumnNames="id" referencedTableName="transport"/>
+
+    </changeSet>
+
+</databaseChangeLog>
